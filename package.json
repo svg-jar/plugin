@@ -1,0 +1,27 @@
+{
+  "name": "svg-jar",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A collection of tools for working with SVGs on the web.",
+  "keywords": [],
+  "license": "MIT",
+  "author": "Liam Potter <liam@liampotter.co.uk>",
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "pnpm --filter @svg-jar/plugin test",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "eslint": "^10.2.0",
+    "eslint-config-prettier": "^10.1.8",
+    "jiti": "^2.6.1",
+    "prettier": "^3.8.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.58.2"
+  },
+  "packageManager": "pnpm@10.32.1"
+}

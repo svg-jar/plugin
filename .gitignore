@@ -1,0 +1,6 @@
+node_modules
+dist
+.vitest-attachments
+test-results/
+playwright-report/
+PLAN.md

@@ -1,0 +1,14 @@
+{
+  "name": "@svg-jar/test-vite-vanilla",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite"
+  },
+  "devDependencies": {
+    "@svg-jar/plugin": "workspace:*",
+    "vite": "catalog:"
+  }
+}

@@ -1,0 +1,126 @@
+name: Plugin
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'plugin/**'
+      - 'test-projects/**'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'plugin/**'
+      - 'test-projects/**'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/ci.yml'
+  workflow_dispatch:
+    inputs:
+      update-baselines:
+        description: 'Update visual test baselines'
+        type: boolean
+        default: false
+
+concurrency:
+  group: plugin-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @svg-jar/plugin lint
+      - run: pnpm --filter @svg-jar/plugin prettier
+
+  unit:
+    name: Unit tests (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20, 22, 24, 25]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @svg-jar/plugin build
+      - run: pnpm --filter @svg-jar/plugin test:unit
+
+  e2e:
+    name: E2E tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # Build plugin and all test projects
+      - run: pnpm --filter @svg-jar/plugin build:test-projects
+
+      # Install Playwright browsers
+      - run: pnpm --filter @svg-jar/plugin exec playwright install chromium
+
+      # Normal run: compare against committed baselines
+      - name: Run e2e tests
+        if: inputs.update-baselines != true
+        run: pnpm --filter @svg-jar/plugin test:e2e
+
+      # Manual baseline update: generate new baselines and commit them
+      - name: Update baselines
+        if: inputs.update-baselines == true
+        run: pnpm --filter @svg-jar/plugin test:e2e --update-snapshots
+
+      - name: Commit and push updated baselines
+        if: inputs.update-baselines == true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          find plugin/test/e2e -name '*.png' -path '*-snapshots/*' | xargs git add
+          if ! git diff --staged --quiet; then
+            git commit -m "Update visual test baselines for linux"
+            git push
+          fi
+
+      # Upload screenshots on failure for debugging
+      - name: Upload screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-screenshots
+          path: |
+            plugin/test/e2e/**/*-snapshots/
+            test-results/
+          retention-days: 7
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @svg-jar/plugin build

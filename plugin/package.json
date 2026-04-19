@@ -1,0 +1,83 @@
+{
+  "name": "@svg-jar/plugin",
+  "version": "0.0.1",
+  "description": "An unplugin for importing SVGs as components with sprite sheet support",
+  "keywords": [
+    "svg",
+    "svg-jar",
+    "icons",
+    "sprite",
+    "sprite-sheet",
+    "symbol",
+    "components",
+    "unplugin",
+    "vite",
+    "vite-plugin",
+    "rollup",
+    "rollup-plugin",
+    "rolldown",
+    "esbuild",
+    "webpack",
+    "rspack",
+    "react",
+    "preact",
+    "vue",
+    "solid",
+    "ember",
+    "web-component",
+    "inline-svg"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js",
+    "./vite": "./dist/vite.js",
+    "./rollup": "./dist/rollup.js",
+    "./rolldown": "./dist/rolldown.js",
+    "./esbuild": "./dist/esbuild.js",
+    "./webpack": "./dist/webpack.js",
+    "./rspack": "./dist/rspack.js",
+    "./client/dom": "./client/dom.d.ts",
+    "./client/ember": "./client/ember.d.ts",
+    "./client/react": "./client/react.d.ts",
+    "./client/preact": "./client/preact.d.ts",
+    "./client/vue": "./client/vue.d.ts",
+    "./client/solid": "./client/solid.d.ts",
+    "./client/web-component": "./client/web-component.d.ts",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "client"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "build:test-projects": "tsdown && for dir in ../../test-projects/vite/*/; do (cd \"$dir\" && pnpm vite build); done",
+    "dev": "tsdown --watch",
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "prettier": "prettier --check .",
+    "test": "pnpm test:unit && pnpm test:e2e",
+    "test:e2e": "playwright test",
+    "test:unit": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@eksml/xml": "^0.1.2",
+    "magic-string": "^0.30.17",
+    "svgo": "^4.0.1",
+    "unplugin": "^3.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "execa": "catalog:",
+    "rollup": "catalog:",
+    "tsdown": "catalog:",
+    "vitest": "catalog:"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

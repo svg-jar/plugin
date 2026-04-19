@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "noEmit": true,
+    "types": ["@svg-jar/plugin/client", "node"]
+  },
+  "include": ["src", "test"]
+}

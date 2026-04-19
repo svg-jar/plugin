@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM"],
+    "declaration": true
+  },
+  "include": ["**/*.ts", "**/src/**/*", "**/lib/**/*", "**/types/**/*"],
+  "exclude": ["test/_fixtures"]
+}

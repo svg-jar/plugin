@@ -1,0 +1,7 @@
+**/dist/
+**/test/_fixtures/
+**/test/_scenarios/
+**/test/_snapshots/
+**/lib/banners.ts
+pnpm-lock.yaml
+AGENTS.md
