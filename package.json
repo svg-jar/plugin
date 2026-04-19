@@ -9,6 +9,7 @@
   "type": "module",
   "scripts": {
     "format": "prettier --write .",
+    "prettier": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "pnpm --filter @svg-jar/plugin test",
