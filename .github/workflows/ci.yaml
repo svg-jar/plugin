@@ -1,4 +1,4 @@
-name: Plugin
+name: Plugin CI
 
 on:
   push:
@@ -7,14 +7,14 @@ on:
       - 'plugin/**'
       - 'test-projects/**'
       - 'pnpm-lock.yaml'
-      - '.github/workflows/ci.yml'
+      - '.github/workflows/ci.yaml'
   pull_request:
     branches: [main]
     paths:
       - 'plugin/**'
       - 'test-projects/**'
       - 'pnpm-lock.yaml'
-      - '.github/workflows/ci.yml'
+      - '.github/workflows/ci.yaml'
   workflow_dispatch:
     inputs:
       update-baselines:
