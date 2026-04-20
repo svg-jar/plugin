@@ -1,10 +1,8 @@
 <div align="center">
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/svg-jar/plugin/main/logo-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/svg-jar/plugin/main/logo-light.svg">
-  <img alt="SvgJar" src="https://raw.githubusercontent.com/svg-jar/plugin/main/logo-light.svg" width="300">
-</picture>
+  <picture>
+    <img alt="SvgJar" src="https://raw.githubusercontent.com/svg-jar/plugin/main/logo-banner.svg">
+  </picture>
 
 # @svg-jar/plugin
 
@@ -367,7 +365,3 @@ For a thorough analysis of this problem, see Cynthia Rey's [The state of SVGs on
 - [Cynthia Rey](https://github.com/cyyynthia) for [vite-plugin-magical-svg](https://github.com/cyyynthia/vite-plugin-magical-svg), which directly inspired this plugin's approach to sprite-based SVG handling and embedded reference resolution. Her writing on [the problems with inline SVGs](https://cynthia.dev/blog/the-state-of-svgs-on-the-web) shaped the design philosophy behind the design of this plugin.
 
 ---
-
-<picture>
-<img alt="SvgJar" src="https://raw.githubusercontent.com/svg-jar/plugin/main/logo-banner.svg">
-</picture>
