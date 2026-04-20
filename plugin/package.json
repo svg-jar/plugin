@@ -107,6 +107,10 @@
     "tsdown": "catalog:",
     "vitest": "catalog:"
   },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
   "packageManager": "pnpm@10.32.1",
   "engines": {
     "node": ">=20"
