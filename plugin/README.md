@@ -368,4 +368,6 @@ For a thorough analysis of this problem, see Cynthia Rey's [The state of SVGs on
 
 ---
 
+<picture>
 <img alt="SvgJar" src="https://raw.githubusercontent.com/svg-jar/plugin/main/logo-banner.svg">
+</picture>
