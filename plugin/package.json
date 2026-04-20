@@ -42,6 +42,34 @@
     "./esbuild": "./dist/esbuild.js",
     "./webpack": "./dist/webpack.js",
     "./rspack": "./dist/rspack.js",
+    "./runtime/dom": {
+      "types": "./dist/runtime/dom.d.ts",
+      "default": "./dist/runtime/dom.js"
+    },
+    "./runtime/ember": {
+      "types": "./dist/runtime/ember.d.ts",
+      "default": "./dist/runtime/ember.js"
+    },
+    "./runtime/react": {
+      "types": "./dist/runtime/react.d.ts",
+      "default": "./dist/runtime/react.js"
+    },
+    "./runtime/preact": {
+      "types": "./dist/runtime/preact.d.ts",
+      "default": "./dist/runtime/preact.js"
+    },
+    "./runtime/vue": {
+      "types": "./dist/runtime/vue.d.ts",
+      "default": "./dist/runtime/vue.js"
+    },
+    "./runtime/solid": {
+      "types": "./dist/runtime/solid.d.ts",
+      "default": "./dist/runtime/solid.js"
+    },
+    "./runtime/web-component": {
+      "types": "./dist/runtime/web-component.d.ts",
+      "default": "./dist/runtime/web-component.js"
+    },
     "./client/dom": {
       "types": "./client/dom.d.ts"
     },
@@ -73,7 +101,7 @@
   ],
   "scripts": {
     "build": "tsdown",
-    "build:test-projects": "tsdown && for dir in ../../test-projects/vite/*/; do (cd \"$dir\" && pnpm vite build); done",
+    "build:test-projects": "tsdown && for dir in ../test-projects/vite/*/; do (cd \"$dir\" && pnpm vite build); done",
     "dev": "tsdown --watch",
     "format": "prettier --write .",
     "lint": "eslint .",
