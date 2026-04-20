@@ -62,7 +62,8 @@
     "test:e2e": "playwright test",
     "test:unit": "vitest run",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "@eksml/xml": "^0.1.2",
