@@ -6,13 +6,11 @@
   <img alt="SvgJar" src="https://raw.githubusercontent.com/svg-jar/plugin/main/logo-light.svg" width="300">
 </picture>
 
-<br>
+# @svg-jar/plugin
 
 [![npm version](https://img.shields.io/npm/v/@svg-jar/plugin?style=flat-square&colorB=FFE70B)](https://www.npmjs.com/package/@svg-jar/plugin)
 [![CI](https://img.shields.io/github/actions/workflow/status/svg-jar/plugin/ci.yaml?label=CI&style=flat-square)](https://github.com/svg-jar/plugin/actions/workflows/ci.yaml)
 [![License](https://img.shields.io/npm/l/@svg-jar/plugin?style=flat-square)](LICENSE)
-
-# @svg-jar/plugin
 
 </div>
 
