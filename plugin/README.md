@@ -1,9 +1,16 @@
 <div align="center">
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/svg-jar/plugin/main/logo-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/svg-jar/plugin/main/logo-light.svg">
   <img alt="SvgJar" src="https://raw.githubusercontent.com/svg-jar/plugin/main/logo-light.svg" width="300">
 </picture>
+
+<br>
+
+[![npm version](https://img.shields.io/npm/v/@svg-jar/plugin?style=flat-square&colorB=FFE70B)](https://www.npmjs.com/package/@svg-jar/plugin)
+[![CI](https://img.shields.io/github/actions/workflow/status/svg-jar/plugin/ci.yaml?label=CI&style=flat-square)](https://github.com/svg-jar/plugin/actions/workflows/ci.yaml)
+[![License](https://img.shields.io/npm/l/@svg-jar/plugin?style=flat-square)](LICENSE)
 
 # @svg-jar/plugin
 
@@ -26,7 +33,7 @@ pnpm add -D @svg-jar/plugin
 import svgJar from '@svg-jar/plugin/vite';
 
 export default {
-  plugins: [svgJar({ target: 'dom' })],
+  plugins: [svgJar({ target: 'ember' })],
 };
 ```
 
@@ -37,7 +44,7 @@ export default {
 import svgJar from '@svg-jar/plugin/rollup';
 
 export default {
-  plugins: [svgJar({ target: 'dom' })],
+  plugins: [svgJar({ target: 'ember' })],
 };
 ```
 
@@ -360,3 +367,7 @@ For a thorough analysis of this problem, see Cynthia Rey's [The state of SVGs on
 
 - [Ivan Volti](https://github.com/ivanvolti) for creating [ember-svg-jar](https://github.com/evoactivity/ember-svg-jar), which has been the standard tool for SVGs in Ember for over 10 years, big thanks to him and everyone who has maintained it since.
 - [Cynthia Rey](https://github.com/cyyynthia) for [vite-plugin-magical-svg](https://github.com/cyyynthia/vite-plugin-magical-svg), which directly inspired this plugin's approach to sprite-based SVG handling and embedded reference resolution. Her writing on [the problems with inline SVGs](https://cynthia.dev/blog/the-state-of-svgs-on-the-web) shaped the design philosophy behind the design of this plugin.
+
+---
+
+<img alt="SvgJar" src="https://raw.githubusercontent.com/svg-jar/plugin/main/logo-banner.svg">
