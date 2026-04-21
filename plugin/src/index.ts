@@ -6,6 +6,7 @@ import { createLoadHook } from './hooks/load.ts';
 import { createTransformHook } from './hooks/transform.ts';
 import { createRenderChunkHook } from './hooks/render-chunk.ts';
 import { createGenerateBundleHook } from './hooks/generate-bundle.ts';
+import { createTransformHtmlHook } from './hooks/transform-html.ts';
 
 /**
  * The main unplugin instance. Use the bundler-specific entry points
@@ -36,6 +37,7 @@ export const SvgJarPlugin: UnpluginInstance<SvgJarOptions | undefined, false> = 
       },
       renderChunk: createRenderChunkHook(state) as never,
       generateBundle: createGenerateBundleHook(state) as never,
+      transformIndexHtml: createTransformHtmlHook(state),
       handleHotUpdate({ file, server }) {
         if (!file.endsWith('.svg')) return;
 

@@ -85,6 +85,11 @@ function resolveRefsToFinalUrls(
 
   for (const ref of refs) {
     const href = ref.href;
+
+    // Skip absolute URLs — they were left untouched by the load hook and
+    // should remain as-is in the final sprite output.
+    if (/^[a-z][a-z\d+\-.]*:/i.test(href)) continue;
+
     const moduleId = hrefToModuleId(href, state.base, state.root);
 
     // <use> refs: the referenced SVG is a sprite symbol.

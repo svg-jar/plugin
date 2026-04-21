@@ -73,6 +73,14 @@ export function createTransformHook(
       }
     }
 
+    // Embedded sprites use a local fragment href (#symbolId) instead of a
+    // placeholder, so renderChunk never encounters them and cannot mark them
+    // used. Mark them used here instead.
+    const isEmbedded = state.sprites.isEmbedded(svgModule.spriteName);
+    if (svgModule.mode === 'sprite' && isEmbedded) {
+      state.sprites.markUsed(svgModule.symbolId);
+    }
+
     const generated = generateCode({
       target: state.options.target,
       symbolId: svgModule.symbolId,
@@ -81,6 +89,7 @@ export function createTransformHook(
       height: svgModule.data.height,
       mode: svgModule.mode,
       isDev: state.isDev,
+      isEmbedded,
       svgMarkup: svgModule.svgMarkup,
       symbolMarkup,
       refSymbols,

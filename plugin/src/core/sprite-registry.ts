@@ -34,13 +34,17 @@ export class SpriteRegistry {
   /** Reverse mapping: symbolId → spriteName. */
   private symbolToSprite = new Map<string, string>();
 
+  /** Sprite names that should be embedded inline in the HTML document. */
+  private embeddedSprites = new Set<string>();
+
   /**
    * Registers a symbol in a named sprite.
    *
    * @param spriteName The sprite to add to (e.g. `"sprite"`, `"nav"`).
    * @param symbol     The symbol to register.
+   * @param embedded   When `true`, marks this sprite as inline-embedded.
    */
-  addSymbol(spriteName: string, symbol: SpriteSymbol): void {
+  addSymbol(spriteName: string, symbol: SpriteSymbol, embedded = false): void {
     let symbols = this.sprites.get(spriteName);
     if (!symbols) {
       symbols = [];
@@ -48,6 +52,17 @@ export class SpriteRegistry {
     }
     symbols.push(symbol);
     this.symbolToSprite.set(symbol.symbolId, spriteName);
+    if (embedded) {
+      this.embeddedSprites.add(spriteName);
+    }
+  }
+
+  /**
+   * Returns `true` if the named sprite should be inlined into the HTML
+   * document rather than emitted as an external asset file.
+   */
+  isEmbedded(spriteName: string): boolean {
+    return this.embeddedSprites.has(spriteName);
   }
 
   /**
@@ -118,5 +133,6 @@ export class SpriteRegistry {
     this.sprites.clear();
     this.usedSymbolIds.clear();
     this.symbolToSprite.clear();
+    this.embeddedSprites.clear();
   }
 }

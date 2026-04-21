@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 80">
+  <style>
+    @font-face {
+    font-family: 'Inter';
+    src: url('https://fonts.gstatic.com/s/inter/v13/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2') format('woff2');
+    }
+    .label { font-family: 'Inter', serif; font-size: 24px; fill: #333; }
+  </style>
+  <rect width="200" height="80" fill="#f5f5f5" />
+  <text class="label" x="100" y="50" text-anchor="middle">Hello</text>
+</svg>

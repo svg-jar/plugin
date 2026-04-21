@@ -23,6 +23,29 @@ export interface SvgJarOptions {
 
   /** Replace non-`none` fill/stroke with `currentColor`. Default: `false`. */
   currentColor?: boolean;
+
+  /**
+   * Sprite sheets to inline directly into the HTML document rather than
+   * emit as external asset files (Vite only, via `transformIndexHtml`).
+   *
+   * Inlining keeps symbols in the same document as their `<use>` elements,
+   * which is required for CSS animations (`@keyframes`), SMIL animations
+   * (`<animate>`, `<animateMotion>`), and `@font-face` rules inside SVG
+   * `<style>` tags to work correctly.
+   *
+   * - `true`: embed all sprite sheets
+   * - `false` (default): emit all sprites as external files
+   * - `string[]`: embed only the named sprites in the array
+   *
+   * @example
+   * // Embed only the 'animated' sprite sheet
+   * svgJar({ embedded: ['animated'] })
+   *
+   * @example
+   * // Embed all sprite sheets
+   * svgJar({ embedded: true })
+   */
+  embedded?: boolean | string[];
 }
 
 /**
@@ -33,6 +56,7 @@ export interface ResolvedOptions {
   svgo: boolean | SvgoConfig;
   defaultSprite: string;
   currentColor: boolean;
+  embedded: boolean | string[];
 }
 
 /**
@@ -47,5 +71,6 @@ export function resolveOptions(options: SvgJarOptions = {}): ResolvedOptions {
     svgo: options.svgo ?? true,
     defaultSprite: options.defaultSprite ?? 'sprite',
     currentColor: options.currentColor ?? false,
+    embedded: options.embedded ?? false,
   };
 }

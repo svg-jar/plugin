@@ -16,6 +16,10 @@ import UseRef from './icons/with-use-ref.svg';
 // Embedded refs - SVG with <image href> referencing a PNG
 import ImageRef from './icons/with-image-ref.svg';
 
+// External asset refs - absolute URLs that must pass through unchanged
+import ExternalImage from './icons/with-external-image.svg';
+import FontRef from './icons/with-font-ref.svg?sprite=fonts';
+
 // Source order - complex SVG with layered shapes, gradients, clip-paths, text
 import SourceOrder from './icons/source-order.svg';
 
@@ -49,9 +53,13 @@ img.src = starUrl;
 img.alt = 'Star';
 app.appendChild(img);
 
-// Embedded refs
+// Embedded refs (local)
 app.appendChild(UseRef());
 app.appendChild(ImageRef());
+
+// External asset refs (absolute URLs - should remain unchanged in output)
+app.appendChild(ExternalImage());
+app.appendChild(FontRef());
 
 // Source order - render at larger size to see detail
 const sourceOrderEl = SourceOrder();

@@ -28,12 +28,18 @@ export function generateProd(
   viewBox: string | null,
   width: string | null,
   height: string | null,
+  isEmbedded = false,
 ): string {
   const runtimePath = RUNTIME_PATHS[target];
-  const placeholder = makePlaceholder(symbolId);
+
+  // Embedded sprites are inlined in the HTML document — use a local fragment
+  // reference that is stable at codegen time (no renderChunk replacement needed).
+  // Non-embedded sprites use a placeholder that renderChunk replaces with the
+  // final hashed sprite URL.
+  const href = isEmbedded ? JSON.stringify(`#${symbolId}`) : `"${makePlaceholder(symbolId)}"`;
 
   return [
     `import { createSvg } from '${runtimePath}';`,
-    `export default /*#__PURE__*/ createSvg(${JSON.stringify(viewBox)}, ${JSON.stringify(width)}, ${JSON.stringify(height)}, "${placeholder}");`,
+    `export default /*#__PURE__*/ createSvg(${JSON.stringify(viewBox)}, ${JSON.stringify(width)}, ${JSON.stringify(height)}, ${href});`,
   ].join('\n');
 }

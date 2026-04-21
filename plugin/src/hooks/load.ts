@@ -83,6 +83,9 @@ export function createLoadHook(
       const refs = findEmbeddedRefs(data.entries);
 
       for (const ref of refs) {
+        // Skip absolute URLs (http/https/data/etc.) — leave them untouched.
+        if (/^[a-z][a-z\d+\-.]*:/i.test(ref.href)) continue;
+
         const resolved = await this.resolve(ref.href, parsed.filePath);
         if (!resolved?.id) continue;
 
@@ -119,14 +122,15 @@ export function createLoadHook(
     // Resolve sprite name: per-SVG query > global default
     const spriteName = parsed.spriteName ?? state.options.defaultSprite;
 
+    // Determine whether this sprite should be embedded in the HTML document.
+    // Resolved entirely from plugin options — no per-import override.
+    const { embedded } = state.options;
+    const isEmbedded = embedded === true || (Array.isArray(embedded) && embedded.includes(spriteName));
+
     // For sprite mode, create a <symbol> and register in the registry
     if (parsed.mode === 'sprite') {
       const symbolEntry = createSymbol(symbolId, data);
-      state.sprites.addSymbol(spriteName, {
-        symbolId,
-        entries: [symbolEntry],
-        metadata: data,
-      });
+      state.sprites.addSymbol(spriteName, { symbolId, entries: [symbolEntry], metadata: data }, isEmbedded);
     }
 
     // Serialize inner content (no root <svg>) for codegen, and full SVG for file emission.

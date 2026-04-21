@@ -19,6 +19,12 @@ export interface CodegenContext {
   mode: SvgImportMode;
   /** Whether this is a dev build. */
   isDev: boolean;
+  /**
+   * When `true`, the sprite is inlined in the HTML document and the
+   * `<use href>` should reference a local fragment (`#symbolId`) rather
+   * than an external asset path.
+   */
+  isEmbedded: boolean;
   /** Full SVG markup string (for inline mode). */
   svgMarkup: string;
   /** The SVG content as a `<symbol>` element string (for dev sprite mode). */

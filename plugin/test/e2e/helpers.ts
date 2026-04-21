@@ -27,7 +27,7 @@ export function assetsDir(projectName: string): string {
 // -- Page rendering assertions --
 
 export async function expectSvgsVisible(page: Page): Promise<void> {
-  const svgs = page.locator('svg');
+  const svgs = page.locator('svg:visible');
   await expect(svgs.first()).toBeVisible();
 }
 
@@ -83,13 +83,17 @@ export function expectNamedSpriteContainsCircle(assets: string): void {
 }
 
 export function expectChunkContainsSpriteRefs(assets: string): void {
-  const code = readAsset(assets, findFile(assets, (f) => f.endsWith('.js'))!);
+  // Concatenate all JS chunks — sprite refs may be split across entry and shared chunks
+  const files = fs.readdirSync(assets).filter((f) => f.endsWith('.js'));
+  const code = files.map((f) => readAsset(assets, f)).join('\n');
   expect(code).toMatch(/sprite-[a-f0-9]+\.svg/);
   expect(code).toMatch(/shapes-[a-f0-9]+\.svg/);
 }
 
 export function expectChunkContainsInlineMarkup(assets: string): void {
-  const code = readAsset(assets, findFile(assets, (f) => f.endsWith('.js'))!);
+  // Concatenate all JS chunks — inline markup may live in a shared chunk
+  const files = fs.readdirSync(assets).filter((f) => f.endsWith('.js'));
+  const code = files.map((f) => readAsset(assets, f)).join('\n');
   expect(code).toContain('M4 4H20V20H4z');
 }
 

@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { test, expect } from '@playwright/test';
 import {
   assetsDir,
@@ -14,6 +16,21 @@ import {
   expectChunkContainsSpriteRefs,
   expectChunkContainsInlineMarkup,
 } from './helpers.ts';
+
+function readDistFile(projectName: string, fileName: string): string {
+  const filePath = path.resolve(
+    import.meta.dirname,
+    '..',
+    '..',
+    '..',
+    'test-projects',
+    'vite',
+    projectName,
+    'dist',
+    fileName,
+  );
+  return fs.readFileSync(filePath, 'utf-8');
+}
 
 const ASSETS = assetsDir('vanilla');
 
@@ -115,5 +132,83 @@ test.describe('Vanilla DOM', () => {
   test('embedded <image href> to PNG resolved', () => {
     const sprite = readAsset(ASSETS, findFile(ASSETS, (f) => f.startsWith('sprite-') && f.endsWith('.svg'))!);
     expect(sprite).toMatch(/href="\/assets\/placeholder-[^"]+\.png"/);
+  });
+
+  test('absolute image URL passes through unchanged', () => {
+    const sprite = readAsset(ASSETS, findFile(ASSETS, (f) => f.startsWith('sprite-') && f.endsWith('.svg'))!);
+    expect(sprite).toContain('href="https://placehold.co/600x400/png"');
+  });
+
+  test('absolute font URL in @font-face passes through unchanged', () => {
+    // font-ref.svg is imported into the 'fonts' named sprite
+    const sprite = readAsset(ASSETS, findFile(ASSETS, (f) => f.startsWith('fonts-') && f.endsWith('.svg'))!);
+    expect(sprite).toContain('https://fonts.gstatic.com');
+    expect(sprite).toContain('@font-face');
+  });
+});
+
+test.describe('Vanilla DOM — embedded sprite (animations page)', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/animations.html');
+  });
+
+  // -- Build output --
+
+  test('animated sprite is emitted as a file', () => {
+    expect(findFile(ASSETS, (f) => f.startsWith('animated-') && f.endsWith('.svg'))).toBeDefined();
+  });
+
+  test('animated sprite contains all 5 animation symbols', () => {
+    const sprite = readAsset(ASSETS, findFile(ASSETS, (f) => f.startsWith('animated-') && f.endsWith('.svg'))!);
+    const symbolCount = (sprite.match(/<symbol/g) ?? []).length;
+    expect(symbolCount).toBe(5);
+  });
+
+  test('animated sprite preserves CSS @keyframes', () => {
+    const sprite = readAsset(ASSETS, findFile(ASSETS, (f) => f.startsWith('animated-') && f.endsWith('.svg'))!);
+    expect(sprite).toContain('@keyframes');
+  });
+
+  test('animated sprite preserves SMIL animate elements', () => {
+    const sprite = readAsset(ASSETS, findFile(ASSETS, (f) => f.startsWith('animated-') && f.endsWith('.svg'))!);
+    expect(sprite).toContain('<animate ');
+  });
+
+  test('animated sprite preserves SMIL animateMotion elements', () => {
+    const sprite = readAsset(ASSETS, findFile(ASSETS, (f) => f.startsWith('animated-') && f.endsWith('.svg'))!);
+    expect(sprite).toContain('<animateMotion');
+  });
+
+  // -- HTML embedding --
+
+  test('animated sprite is inlined in animations.html', () => {
+    const html = readDistFile('vanilla', 'animations.html');
+    expect(html).toContain('<svg');
+    expect(html).toContain('display:none');
+    expect(html).toContain('<symbol');
+  });
+
+  test('animations.html contains all embedded symbols inline', () => {
+    const html = readDistFile('vanilla', 'animations.html');
+    const symbolCount = (html.match(/<symbol/g) ?? []).length;
+    // 5 animated symbols + 1 font symbol (both 'animated' and 'fonts' are embedded)
+    expect(symbolCount).toBe(6);
+  });
+
+  test('inlined sprite is not an external file reference', () => {
+    const html = readDistFile('vanilla', 'animations.html');
+    // The <use> elements reference local fragment IDs, not external files
+    expect(html).not.toMatch(/href="\/assets\/animated-[^"]+\.svg#/);
+  });
+
+  // -- Page rendering --
+
+  test('animations page loads', async ({ page }) => {
+    await expect(page).toHaveTitle(/Animated/);
+  });
+
+  test('renders 5 SVG elements on the animations page', async ({ page }) => {
+    const svgs = page.locator('#app svg');
+    await expect(svgs).toHaveCount(5);
   });
 });

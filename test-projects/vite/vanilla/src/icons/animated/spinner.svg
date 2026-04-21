@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .track { transform-origin: 50px 50px; animation: spin 1s linear infinite; }
+  </style>
+  <circle cx="50" cy="50" r="40" fill="none" stroke="#e0e0e0" stroke-width="8"/>
+  <circle class="track" cx="50" cy="50" r="40" fill="none" stroke="#2196f3" stroke-width="8"
+    stroke-dasharray="62.8 188.5" stroke-linecap="round"/>
+</svg>
