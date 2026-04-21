@@ -4,14 +4,19 @@
   "private": true,
   "description": "A collection of tools for working with SVGs on the web.",
   "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:svg-jar/plugin.git"
+  },
   "license": "MIT",
   "author": "Liam Potter <liam@liampotter.co.uk>",
   "type": "module",
   "scripts": {
     "format": "prettier --write .",
-    "prettier": "prettier --check .",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "prettier": "prettier --check .",
+    "sortPackageJson": "pnpm dlx sort-package-json",
     "test": "pnpm --filter @svg-jar/plugin test",
     "typecheck": "tsc --noEmit"
   },
@@ -20,6 +25,7 @@
     "eslint": "^10.2.0",
     "jiti": "^2.6.1",
     "prettier": "^3.8.2",
+    "release-plan": "^0.18.0",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.58.2"
   },
