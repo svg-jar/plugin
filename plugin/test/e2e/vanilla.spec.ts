@@ -184,7 +184,7 @@ test.describe('Vanilla DOM — embedded sprite (animations page)', () => {
   test('animated sprite is inlined in animations.html', () => {
     const html = readDistFile('vanilla', 'animations.html');
     expect(html).toContain('<svg');
-    expect(html).toContain('display:none');
+    expect(html).toContain('position:absolute');
     expect(html).toContain('<symbol');
   });
 

@@ -79,12 +79,14 @@ describe('assembleSprite', () => {
     expect(sprite).toContain('xmlns:xlink="http://www.w3.org/1999/xlink"');
   });
 
-  it('hides the sprite with display:none', () => {
+  it('hides the sprite container without display:none', () => {
     const data = parseSvg(readFixture('simple.svg'));
     const symbol = createSymbol('abc123', data);
     const sprite = assembleSprite([symbol]);
 
-    expect(sprite).toContain('style="display:none"');
+    expect(sprite).toContain('aria-hidden="true"');
+    expect(sprite).toContain('position:absolute');
+    expect(sprite).not.toContain('display:none');
   });
 
   it('includes multiple symbols', () => {
