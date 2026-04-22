@@ -36,14 +36,18 @@ export function createSymbol(symbolId: string, data: SvgData): LosslessEntry {
  * Assembles a complete sprite sheet SVG from an array of `<symbol>` entries.
  *
  * The sprite is an `<svg>` element with `xmlns` and `xmlns:xlink` attributes,
- * hidden via `style="display:none"`, containing all the symbols.
+ * hidden via `aria-hidden` and `position:absolute;width:0;height:0;overflow:hidden`
+ * so it occupies no space and is invisible to assistive technology.
+ * `display:none` is intentionally avoided — Firefox has a bug where `<defs>`
+ * content such as `<linearGradient>` and `<clipPath>` does not render correctly
+ * when referenced via `<use>` from a sprite container with `display:none`.
  *
  * @param symbols Array of `<symbol>` lossless entries (from `createSymbol`).
  * @returns       The sprite SVG as a string.
  *
  * @example
  *   const sprite = assembleSprite([symbol1, symbol2]);
- *   // → '<svg xmlns="..." style="display:none"><symbol id="a" ...>...</symbol><symbol id="b" ...>...</symbol></svg>'
+ *   // → '<svg xmlns="..." aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><symbol id="a" ...>...</symbol></svg>'
  */
 export function assembleSprite(symbols: LosslessEntry[]): string {
   const entries: LosslessEntry[] = [
@@ -53,7 +57,8 @@ export function assembleSprite(symbols: LosslessEntry[]): string {
           $attr: {
             xmlns: 'http://www.w3.org/2000/svg',
             'xmlns:xlink': 'http://www.w3.org/1999/xlink',
-            style: 'display:none',
+            'aria-hidden': 'true',
+            style: 'position:absolute;width:0;height:0;overflow:hidden',
           },
         },
         ...symbols,
