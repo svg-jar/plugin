@@ -2,6 +2,17 @@
 
 ## Release (2026-04-22)
 
+* @svg-jar/plugin 0.1.1 (patch)
+
+#### :bug: Bug Fix
+* `@svg-jar/plugin`
+  * [#3](https://github.com/svg-jar/plugin/pull/3) Fix Firefox bug: when a sprite sheet has display:none, linearGradient does not render correctly ([@evoactivity](https://github.com/evoactivity))
+
+#### Committers: 1
+- Liam ([@evoactivity](https://github.com/evoactivity))
+
+## Release (2026-04-22)
+
 * @svg-jar/plugin 0.1.0 (minor)
 
 #### :rocket: Enhancement

@@ -1,18 +1,18 @@
 {
   "solution": {
     "@svg-jar/plugin": {
-      "impact": "minor",
-      "oldVersion": "0.0.1",
-      "newVersion": "0.1.0",
+      "impact": "patch",
+      "oldVersion": "0.1.0",
+      "newVersion": "0.1.1",
       "tagName": "latest",
       "constraints": [
         {
-          "impact": "minor",
-          "reason": "Appears in changelog section :rocket: Enhancement"
+          "impact": "patch",
+          "reason": "Appears in changelog section :bug: Bug Fix"
         }
       ],
       "pkgJSONPath": "./plugin/package.json"
     }
   },
-  "description": "## Release (2026-04-22)\n\n* @svg-jar/plugin 0.1.0 (minor)\n\n#### :rocket: Enhancement\n* `@svg-jar/plugin`\n  * [#2](https://github.com/svg-jar/plugin/pull/2) Add embedded sprite option for animations and font-face support ([@evoactivity](https://github.com/evoactivity))\n\n#### Committers: 1\n- Liam ([@evoactivity](https://github.com/evoactivity))\n"
+  "description": "## Release (2026-04-22)\n\n* @svg-jar/plugin 0.1.1 (patch)\n\n#### :bug: Bug Fix\n* `@svg-jar/plugin`\n  * [#3](https://github.com/svg-jar/plugin/pull/3) Fix Firefox bug: when a sprite sheet has display:none, linearGradient does not render correctly ([@evoactivity](https://github.com/evoactivity))\n\n#### Committers: 1\n- Liam ([@evoactivity](https://github.com/evoactivity))\n"
 }
