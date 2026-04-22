@@ -5,7 +5,7 @@
     "moduleResolution": "bundler",
     "strict": true,
     "noEmit": true,
-    "types": ["@svg-jar/plugin/client", "node"]
+    "types": ["@svg-jar/plugin/client/dom", "node"]
   },
   "include": ["src", "test"]
 }

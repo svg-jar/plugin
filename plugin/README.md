@@ -107,6 +107,11 @@ svgJar({
   // Replace non-none fill/stroke with currentColor globally.
   // Default: false
   currentColor: false,
+
+  // Sprite sheets to inline into the HTML document rather than emit as
+  // external files. See "Embedded sprites" below.
+  // true: embed all sprites  |  string[]: embed named sprites  |  false (default): external files
+  embedded: false,
 });
 ```
 
@@ -340,6 +345,66 @@ SVGs containing `<use href="other.svg">` or `<image href="photo.png">` have thei
 - `<image>` refs to non-SVG files (PNG, etc.) are handled by the bundler's native asset pipeline
 
 In dev mode, `<use>` SVG references are embedded as local `<symbol>` entries for cross-browser compatibility.
+
+## Embedded sprites
+
+By default, sprite sheets are emitted as separate asset files (e.g. `sprite-abc123.svg`) and referenced via `<use href="/assets/sprite-abc123.svg#symbolId">`. This is the most efficient delivery for static icons — the sprite is cached independently and shared across pages.
+
+However, when the sprite file is loaded as an external document, browsers impose a hard restriction: **CSS and SMIL animations defined inside `<symbol>` elements do not run**. Specifically:
+
+- `@keyframes` rules in `<style>` tags inside a `<symbol>` are not applied to the referencing document
+- SMIL animation elements (`<animate>`, `<animateMotion>`, `<animateTransform>`) inside a `<symbol>` do not execute
+- `@font-face` rules inside SVG `<style>` tags are not registered in the referencing document
+
+This is a fundamental browser security boundary, not a plugin limitation. The symbol's styles and animations live in a separate SVG document and cannot affect the page that references them via `<use href>`.
+
+The solution is to inline the sprite sheet directly into the HTML document. When the `<svg style="display:none">` containing the symbols is part of the same document as the `<use>` elements, all styles and animations work correctly, since they share the same browsing context.
+
+### Using the `embedded` option (Vite only)
+
+Pass the names of any sprite sheets that should be inlined into the HTML via `transformIndexHtml`:
+
+```ts
+// vite.config.ts
+import svgJar from '@svg-jar/plugin/vite';
+
+export default {
+  plugins: [
+    svgJar({
+      target: 'dom',
+      embedded: ['animated'], // inline the 'animated' sprite, keep others external
+    }),
+  ],
+};
+```
+
+Then import your animated SVGs into that sprite as normal:
+
+```ts
+import Spinner from './icons/spinner.svg?sprite=animated';
+import Pulse from './icons/pulse.svg?sprite=animated';
+```
+
+At build time, the plugin:
+
+1. Assembles the `animated` sprite sheet as usual
+2. Emits it as a file (available for inspection and caching if needed)
+3. Injects the sprite's `<svg style="display:none">` inline at the start of `<body>` in each HTML entry point
+4. Generates `<use href="#symbolId">` (local fragment references) instead of `<use href="/assets/animated-hash.svg#symbolId">` (external file references)
+
+The result is that all animations, `@keyframes`, and `@font-face` rules inside the symbols work correctly in production builds.
+
+To embed all sprites:
+
+```ts
+svgJar({ embedded: true });
+```
+
+> [!NOTE]
+> The `embedded` option only applies to Vite builds. It has no effect in Rollup or other bundlers, which do not have an HTML entry point for the plugin to transform.
+
+> [!NOTE]
+> Embedded sprites are still emitted as external files — they are additionally injected into the HTML. Dev mode is unaffected: symbols are always rendered as self-contained inline SVGs during development.
 
 ## What's unsafe about inline SVGs?
 

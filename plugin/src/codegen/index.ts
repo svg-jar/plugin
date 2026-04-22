@@ -42,6 +42,7 @@ export function generateCode(ctx: CodegenContext): string {
     );
   }
 
-  // Production sprite mode — embed a placeholder that renderChunk resolves.
-  return generateProd(ctx.target, ctx.symbolId, ctx.viewBox, ctx.width, ctx.height);
+  // Production sprite mode — embed a placeholder that renderChunk resolves,
+  // or a local fragment ref for embedded sprites.
+  return generateProd(ctx.target, ctx.symbolId, ctx.viewBox, ctx.width, ctx.height, ctx.isEmbedded);
 }

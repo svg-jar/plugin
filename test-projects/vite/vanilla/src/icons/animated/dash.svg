@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <style>
+    @keyframes draw {
+      0% { stroke-dashoffset: 283; }
+      50% { stroke-dashoffset: 0; }
+      100% { stroke-dashoffset: -283; }
+    }
+    .ring { animation: draw 2.5s ease-in-out infinite; }
+  </style>
+  <circle cx="50" cy="50" r="45" fill="none" stroke="#e0e0e0" stroke-width="6"/>
+  <circle class="ring" cx="50" cy="50" r="45" fill="none" stroke="#9c27b0"
+    stroke-width="6" stroke-dasharray="283" stroke-dashoffset="283"
+    stroke-linecap="round" transform="rotate(-90 50 50)"/>
+</svg>

@@ -183,6 +183,37 @@ describe('Rollup integration', () => {
     });
   });
 
+  describe('external asset references', () => {
+    it('leaves absolute URL in <image href> unchanged', async () => {
+      const entry = path.join(FIXTURES_DIR, 'entry-external-refs.js');
+      const result = await build({ target: 'dom' }, entry);
+      const sprite = result.output.find(
+        (o) => o.type === 'asset' && o.fileName.startsWith('assets/sprite-') && o.fileName.endsWith('.svg'),
+      );
+      expect(sprite).toBeDefined();
+      if (sprite?.type === 'asset' && typeof sprite.source === 'string') {
+        expect(sprite.source).toContain('href="https://example.com/photo.jpg"');
+        // Must not be rewritten to a local asset path
+        expect(sprite.source).not.toMatch(/href="\/assets\//);
+      }
+    });
+
+    it('leaves @font-face URL in <style> unchanged', async () => {
+      const entry = path.join(FIXTURES_DIR, 'entry-external-refs.js');
+      const result = await build({ target: 'dom' }, entry);
+      const sprite = result.output.find(
+        (o) => o.type === 'asset' && o.fileName.startsWith('assets/sprite-') && o.fileName.endsWith('.svg'),
+      );
+      expect(sprite).toBeDefined();
+      if (sprite?.type === 'asset' && typeof sprite.source === 'string') {
+        // SVGO minifies the @font-face rule (strips quotes around url(), merges whitespace)
+        // but the external URL itself must be preserved verbatim
+        expect(sprite.source).toContain('https://example.com/fonts/custom.woff2');
+        expect(sprite.source).toContain('@font-face');
+      }
+    });
+  });
+
   describe('currentColor', () => {
     it('applies currentColor when enabled globally', async () => {
       const result = await build({ target: 'dom', currentColor: true });
