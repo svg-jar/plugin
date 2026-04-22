@@ -1,0 +1,18 @@
+{
+  "solution": {
+    "@svg-jar/plugin": {
+      "impact": "minor",
+      "oldVersion": "0.0.1",
+      "newVersion": "0.1.0",
+      "tagName": "latest",
+      "constraints": [
+        {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        }
+      ],
+      "pkgJSONPath": "./plugin/package.json"
+    }
+  },
+  "description": "## Release (2026-04-22)\n\n* @svg-jar/plugin 0.1.0 (minor)\n\n#### :rocket: Enhancement\n* `@svg-jar/plugin`\n  * [#2](https://github.com/svg-jar/plugin/pull/2) Add embedded sprite option for animations and font-face support ([@evoactivity](https://github.com/evoactivity))\n\n#### Committers: 1\n- Liam ([@evoactivity](https://github.com/evoactivity))\n"
+}
