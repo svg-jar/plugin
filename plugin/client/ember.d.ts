@@ -12,7 +12,7 @@ declare module '*.svg' {
   import type { ComponentLike } from '@glint/template';
 
   const Component: ComponentLike<{
-    Element: SVGElement;
+    Element: SVGSVGElement;
     Blocks: {
       default: [];
     };
@@ -24,7 +24,7 @@ declare module '*.svg?current-color' {
   import type { ComponentLike } from '@glint/template';
 
   const Component: ComponentLike<{
-    Element: SVGElement;
+    Element: SVGSVGElement;
     Blocks: {
       default: [];
     };
@@ -36,7 +36,7 @@ declare module '*.svg?skip-current-color' {
   import type { ComponentLike } from '@glint/template';
 
   const Component: ComponentLike<{
-    Element: SVGElement;
+    Element: SVGSVGElement;
     Blocks: {
       default: [];
     };
@@ -48,7 +48,7 @@ declare module '*.svg?unsafe-inline' {
   import type { ComponentLike } from '@glint/template';
 
   const Component: ComponentLike<{
-    Element: SVGElement;
+    Element: SVGSVGElement;
     Blocks: {
       default: [];
     };
