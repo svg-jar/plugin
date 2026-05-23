@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2026-05-23)
+
+* @svg-jar/plugin 0.1.2 (patch)
+
+#### :bug: Bug Fix
+* `@svg-jar/plugin`
+  * [#5](https://github.com/svg-jar/plugin/pull/5) Use SVGSVGElement for Ember types ([@mogstad](https://github.com/mogstad))
+
+#### Committers: 1
+- Bjarne Mogstad ([@mogstad](https://github.com/mogstad))
+
 ## Release (2026-04-22)
 
 * @svg-jar/plugin 0.1.1 (patch)

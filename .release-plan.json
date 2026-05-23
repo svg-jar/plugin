@@ -2,8 +2,8 @@
   "solution": {
     "@svg-jar/plugin": {
       "impact": "patch",
-      "oldVersion": "0.1.0",
-      "newVersion": "0.1.1",
+      "oldVersion": "0.1.1",
+      "newVersion": "0.1.2",
       "tagName": "latest",
       "constraints": [
         {
@@ -14,5 +14,5 @@
       "pkgJSONPath": "./plugin/package.json"
     }
   },
-  "description": "## Release (2026-04-22)\n\n* @svg-jar/plugin 0.1.1 (patch)\n\n#### :bug: Bug Fix\n* `@svg-jar/plugin`\n  * [#3](https://github.com/svg-jar/plugin/pull/3) Fix Firefox bug: when a sprite sheet has display:none, linearGradient does not render correctly ([@evoactivity](https://github.com/evoactivity))\n\n#### Committers: 1\n- Liam ([@evoactivity](https://github.com/evoactivity))\n"
+  "description": "## Release (2026-05-23)\n\n* @svg-jar/plugin 0.1.2 (patch)\n\n#### :bug: Bug Fix\n* `@svg-jar/plugin`\n  * [#5](https://github.com/svg-jar/plugin/pull/5) Use SVGSVGElement for Ember types ([@mogstad](https://github.com/mogstad))\n\n#### Committers: 1\n- Bjarne Mogstad ([@mogstad](https://github.com/mogstad))\n"
 }

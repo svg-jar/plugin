@@ -1,6 +1,6 @@
 {
   "name": "@svg-jar/plugin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "An unplugin for importing SVGs as components with sprite sheet support",
   "keywords": [
     "svg",
