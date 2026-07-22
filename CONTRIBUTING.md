@@ -63,6 +63,9 @@ test-projects/vite/         One Vite app per supported framework target
 ├── vanilla/
 ├── vue/
 └── web-component/
+
+test-projects/tsdown/       tsdown (Rolldown) projects
+└── library/                Icon library with declaration output
 ```
 
 ## Tests
@@ -77,7 +80,7 @@ pnpm --filter @svg-jar/plugin test:unit
 
 ### Integration tests
 
-A Rollup integration test builds a minimal bundle and asserts the output.
+Rollup and Rolldown integration tests build a minimal bundle and assert the output.
 
 ```sh
 pnpm --filter @svg-jar/plugin test:unit   # includes integration/

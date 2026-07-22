@@ -12,6 +12,9 @@ catalogs:
     execa:
       specifier: ^9.6.0
       version: 9.6.1
+    rolldown:
+      specifier: ^1.0.0-rc.15
+      version: 1.0.0-rc.15
     rollup:
       specifier: ^4.60.1
       version: 4.60.1
@@ -75,6 +78,9 @@ importers:
       execa:
         specifier: 'catalog:'
         version: 9.6.1
+      rolldown:
+        specifier: 'catalog:'
+        version: 1.0.0-rc.15
       rollup:
         specifier: 'catalog:'
         version: 4.60.1
@@ -84,6 +90,18 @@ importers:
       vitest:
         specifier: 'catalog:'
         version: 4.1.4(@types/node@25.5.0)(@vitest/browser-playwright@4.1.4)(@vitest/ui@4.1.4)(jsdom@25.0.1)(vite@8.0.8(@types/node@25.5.0)(esbuild@0.27.7)(jiti@2.6.1)(terser@5.46.1)(tsx@4.21.0))
+
+  test-projects/tsdown/library:
+    devDependencies:
+      '@svg-jar/plugin':
+        specifier: workspace:*
+        version: link:../../../plugin
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.21.8(typescript@6.0.2)(vue-tsc@3.2.6(typescript@6.0.2))
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.2
 
   test-projects/vite/ember:
     dependencies:

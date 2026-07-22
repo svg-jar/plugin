@@ -12,7 +12,7 @@
 
 </div>
 
-An [unplugin](https://github.com/unjs/unplugin) for importing SVGs as components. Supports sprite sheets, inline SVGs, and raw file exports across Vite and Rollup.
+An [unplugin](https://github.com/unjs/unplugin) for importing SVGs as components. Supports sprite sheets, inline SVGs, and raw file exports across Vite, Rollup, and Rolldown (including [tsdown](https://tsdown.dev)).
 
 ## Install
 
@@ -42,6 +42,33 @@ import svgJar from '@svg-jar/plugin/rollup';
 export default {
   plugins: [svgJar({ target: 'ember' })],
 };
+```
+
+### Rolldown
+
+```ts
+// rolldown.config.ts
+import svgJar from '@svg-jar/plugin/rolldown';
+
+export default {
+  plugins: [svgJar({ target: 'ember' })],
+};
+```
+
+### tsdown
+
+[tsdown](https://tsdown.dev) is built on Rolldown, so it uses the Rolldown entry point. This is useful for building component libraries that re-export SVG components — declaration files (`dts: true`) get correctly typed exports for each SVG import.
+
+```ts
+// tsdown.config.ts
+import { defineConfig } from 'tsdown';
+import svgJar from '@svg-jar/plugin/rolldown';
+
+export default defineConfig({
+  entry: ['src/index.ts'],
+  dts: true,
+  plugins: [svgJar({ target: 'dom' })],
+});
 ```
 
 ## Usage
@@ -422,7 +449,7 @@ For a thorough analysis of this problem, see Cynthia Rey's [The state of SVGs on
 ## Requirements
 
 - Node.js >= 20
-- Vite or Rollup
+- Vite, Rollup, or Rolldown (including tsdown)
 
 ## Acknowledgements
 

@@ -68,6 +68,11 @@ export const SvgJarPlugin: UnpluginInstance<SvgJarOptions | undefined, false> = 
       renderChunk: createRenderChunkHook(state) as never,
       generateBundle: createGenerateBundleHook(state) as never,
     },
+
+    rolldown: {
+      renderChunk: createRenderChunkHook(state) as never,
+      generateBundle: createGenerateBundleHook(state) as never,
+    },
   };
 });
 

@@ -11,6 +11,7 @@ const BASE_CTX: CodegenContext = {
   height: '24',
   mode: 'sprite',
   isDev: false,
+  isEmbedded: false,
   svgMarkup: '<svg viewBox="0 0 24 24"><path d="M0 0"/></svg>',
   symbolMarkup: '<symbol id="abc12345" viewBox="0 0 24 24"><path d="M0 0"/></symbol>',
   refSymbols: [],

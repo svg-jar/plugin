@@ -92,3 +92,54 @@ export function isSvgId(id: string): boolean {
   const filePath = queryIndex === -1 ? id : id.slice(0, queryIndex);
   return filePath.endsWith('.svg');
 }
+
+/**
+ * The shape of a virtual SVG declaration module.
+ *
+ * - `'component'` - sprite/inline imports (default export is a component)
+ * - `'file'`      - `?file` imports (default export is a URL string)
+ */
+export type SvgDtsKind = 'component' | 'file';
+
+/** Suffix for virtual declaration modules of component-shaped SVG imports. */
+const SVG_DTS_COMPONENT_SUFFIX = '.svg-jar.d.ts';
+
+/** Suffix for virtual declaration modules of `?file` SVG imports. */
+const SVG_DTS_FILE_SUFFIX = '.svg-jar-file.d.ts';
+
+/**
+ * Returns true if the importer is a declaration module (`.d.ts`, `.d.mts`,
+ * `.d.cts`). Declaration bundlers like rolldown-plugin-dts (used by tsdown)
+ * resolve imports from virtual `.d.ts` twins of the source modules; SVG
+ * imports from those need declaration code, not component code.
+ */
+export function isDtsImporter(importer: string | undefined): boolean {
+  return importer != null && /\.d\.[cm]?ts$/.test(importer);
+}
+
+/**
+ * Builds the module ID for a virtual SVG declaration module.
+ *
+ * The ID must end in `.d.ts` so declaration bundlers treat the module as
+ * declaration code. The query string is dropped - all component-shaped
+ * imports of the same file share one type, so they dedupe naturally.
+ *
+ * @example
+ *   makeSvgDtsId('/project/icon.svg', 'component')
+ *   // → '/project/icon.svg.svg-jar.d.ts'
+ */
+export function makeSvgDtsId(filePath: string, kind: SvgDtsKind): string {
+  return filePath + (kind === 'file' ? SVG_DTS_FILE_SUFFIX : SVG_DTS_COMPONENT_SUFFIX);
+}
+
+/**
+ * Parses a virtual SVG declaration module ID created by {@link makeSvgDtsId}.
+ *
+ * @returns The declaration kind, or `null` if the ID is not a virtual
+ *          SVG declaration module.
+ */
+export function parseSvgDtsId(id: string): SvgDtsKind | null {
+  if (id.endsWith(SVG_DTS_FILE_SUFFIX)) return 'file';
+  if (id.endsWith(SVG_DTS_COMPONENT_SUFFIX)) return 'component';
+  return null;
+}

@@ -81,7 +81,7 @@
   ],
   "scripts": {
     "build": "tsdown",
-    "build:test-projects": "tsdown && for dir in ../test-projects/vite/*/; do (cd \"$dir\" && pnpm vite build); done",
+    "build:test-projects": "tsdown && for dir in ../test-projects/vite/*/; do (cd \"$dir\" && pnpm vite build); done && for dir in ../test-projects/tsdown/*/; do (cd \"$dir\" && pnpm build); done",
     "dev": "tsdown --watch",
     "format": "prettier --write .",
     "lint": "eslint .",
@@ -104,6 +104,7 @@
   "devDependencies": {
     "@playwright/test": "^1.59.1",
     "execa": "catalog:",
+    "rolldown": "catalog:",
     "rollup": "catalog:",
     "tsdown": "catalog:",
     "vitest": "catalog:"
