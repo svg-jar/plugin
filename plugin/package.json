@@ -96,8 +96,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@eksml/xml": "^0.1.2",
-    "magic-string": "^0.30.17",
+    "@eksml/xml": "^0.2.0",
+    "magic-string": "^1.1.0",
     "svgo": "^4.0.1",
     "unplugin": "^3.0.0"
   },

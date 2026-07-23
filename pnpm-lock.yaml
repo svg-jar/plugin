@@ -57,11 +57,11 @@ importers:
   plugin:
     dependencies:
       '@eksml/xml':
-        specifier: ^0.1.2
-        version: 0.1.2
+        specifier: ^0.2.0
+        version: 0.2.0
       magic-string:
-        specifier: ^0.30.17
-        version: 0.30.21
+        specifier: ^1.1.0
+        version: 1.1.0
       svgo:
         specifier: ^4.0.1
         version: 4.0.1
@@ -889,8 +889,8 @@ packages:
     resolution: {integrity: sha512-Vd/9EVDiu6PPJt9yAh6roZP6El1xHrdvIVGjyBsHR0RYwNHgL7FJPyIIW4fANJNG6FtyZfvlRPpFI4ZM/lubvw==}
     engines: {node: '>=18'}
 
-  '@eksml/xml@0.1.2':
-    resolution: {integrity: sha512-P8HpBCeTfkxcHpA/vzSGeoz1gwi4fL8wMekp9MfuVGa3B+6CmXvyQiBReQpGLfmRWrXzsX63DOO77fvKF6kPbg==}
+  '@eksml/xml@0.2.0':
+    resolution: {integrity: sha512-/MpwSx0jnhhKTzDzLb3yzZN/Rm73nGoDvLFEfsicZY3OWcw6DTkbgGPcIKbkoOPtloSESGK7eVLoVnNmHrIVOQ==}
 
   '@ember-data/rfc395-data@0.0.4':
     resolution: {integrity: sha512-tGRdvgC9/QMQSuSuJV45xoyhI0Pzjm7A9o/MVVA3HakXIImJbbzx/k/6dO9CUEQXIyS2y0fW6C1XaYOG7rY0FQ==}
@@ -3435,6 +3435,9 @@ packages:
   magic-string@0.30.21:
     resolution: {integrity: sha512-vd2F4YUyEXKGcLHoq+TEyCjxueSeHnFxyyjNp80yg0XV4vUhnDer/lvvlqM/arB5bXQN5K2/3oinyCRyx8T2CQ==}
 
+  magic-string@1.1.0:
+    resolution: {integrity: sha512-kS3VHe0nEPST2saQV4Rbkchcd3UBRkVTQHo1D3h/ZTwFDhai/mfKkmtPAtD129EOI7K3HlHIsFOt0WrI2/oU9g==}
+
   make-fetch-happen@9.1.0:
     resolution: {integrity: sha512-+zopwDy7DNknmwPQplem5lAZX/eCOzSvSNNcSKm5eVwTkOBzoktEfXsa9L23J/GIRhxRsaxzkPEhrJEpE2F4Gg==}
     engines: {node: '>= 10'}
@@ -5652,7 +5655,7 @@ snapshots:
 
   '@csstools/css-tokenizer@3.0.4': {}
 
-  '@eksml/xml@0.1.2':
+  '@eksml/xml@0.2.0':
     dependencies:
       entities: 8.0.0
 
@@ -8575,6 +8578,10 @@ snapshots:
       yallist: 4.0.0
 
   magic-string@0.30.21:
+    dependencies:
+      '@jridgewell/sourcemap-codec': 1.5.5
+
+  magic-string@1.1.0:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
 
