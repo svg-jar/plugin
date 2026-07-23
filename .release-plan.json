@@ -1,18 +1,22 @@
 {
   "solution": {
     "@svg-jar/plugin": {
-      "impact": "patch",
-      "oldVersion": "0.1.1",
-      "newVersion": "0.1.2",
+      "impact": "minor",
+      "oldVersion": "0.1.2",
+      "newVersion": "0.2.0",
       "tagName": "latest",
       "constraints": [
         {
+          "impact": "minor",
+          "reason": "Appears in changelog section :rocket: Enhancement"
+        },
+        {
           "impact": "patch",
-          "reason": "Appears in changelog section :bug: Bug Fix"
+          "reason": "Appears in changelog section :house: Internal"
         }
       ],
       "pkgJSONPath": "./plugin/package.json"
     }
   },
-  "description": "## Release (2026-05-23)\n\n* @svg-jar/plugin 0.1.2 (patch)\n\n#### :bug: Bug Fix\n* `@svg-jar/plugin`\n  * [#5](https://github.com/svg-jar/plugin/pull/5) Use SVGSVGElement for Ember types ([@mogstad](https://github.com/mogstad))\n\n#### Committers: 1\n- Bjarne Mogstad ([@mogstad](https://github.com/mogstad))\n"
+  "description": "## Release (2026-07-23)\n\n* @svg-jar/plugin 0.2.0 (minor)\n\n#### :rocket: Enhancement\n* `@svg-jar/plugin`\n  * [#9](https://github.com/svg-jar/plugin/pull/9) Add tsdown example project; fix Rolldown sprite assembly and declaration output ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))\n\n#### :house: Internal\n* `@svg-jar/plugin`\n  * [#10](https://github.com/svg-jar/plugin/pull/10) Update magic-string to 1.1.0 and @eksml/xml to 0.2.0 ([@evoactivity](https://github.com/evoactivity))\n\n#### Committers: 2\n- @NullVoxPopuli's reduced-access machine account for AI usage ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))\n- Liam ([@evoactivity](https://github.com/evoactivity))\n"
 }

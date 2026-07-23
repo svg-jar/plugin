@@ -1,5 +1,21 @@
 # Changelog
 
+## Release (2026-07-23)
+
+* @svg-jar/plugin 0.2.0 (minor)
+
+#### :rocket: Enhancement
+* `@svg-jar/plugin`
+  * [#9](https://github.com/svg-jar/plugin/pull/9) Add tsdown example project; fix Rolldown sprite assembly and declaration output ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))
+
+#### :house: Internal
+* `@svg-jar/plugin`
+  * [#10](https://github.com/svg-jar/plugin/pull/10) Update magic-string to 1.1.0 and @eksml/xml to 0.2.0 ([@evoactivity](https://github.com/evoactivity))
+
+#### Committers: 2
+- @NullVoxPopuli's reduced-access machine account for AI usage ([@NullVoxPopuli-ai-agent](https://github.com/NullVoxPopuli-ai-agent))
+- Liam ([@evoactivity](https://github.com/evoactivity))
+
 ## Release (2026-05-23)
 
 * @svg-jar/plugin 0.1.2 (patch)
