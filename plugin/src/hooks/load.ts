@@ -2,7 +2,8 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import type { UnpluginBuildContext, UnpluginContext } from 'unplugin';
 import type { PluginState } from '../core/state.ts';
-import { parseSvgId, isSvgId } from '../core/query.ts';
+import { parseSvgId, isSvgId, parseSvgDtsId } from '../core/query.ts';
+import { generateDts } from '../codegen/dts.ts';
 import { parseSvg, hashSvg } from '../svg/parse.ts';
 import { optimizeSvg } from '../svg/optimize.ts';
 import { applyCurrentColor, stripDimensions, findEmbeddedRefs } from '../svg/transform.ts';
@@ -46,6 +47,11 @@ export function createLoadHook(
   state: PluginState,
 ): (this: UnpluginBuildContext & UnpluginContext, id: string) => Promise<string | null> {
   return async function load(id) {
+    // Virtual SVG declaration modules (created by resolveId for imports
+    // from `.d.ts` modules) load as declaration code for the target.
+    const dtsKind = parseSvgDtsId(id);
+    if (dtsKind) return generateDts(state.options.target, dtsKind);
+
     if (!isSvgId(id)) return null;
 
     const parsed = parseSvgId(id);

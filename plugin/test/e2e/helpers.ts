@@ -19,9 +19,12 @@ export function readAsset(assetsDir: string, fileName: string): string {
 
 /**
  * Returns the dist/assets path for a test project.
+ *
+ * @param projectName Project directory name inside the bundler directory.
+ * @param bundler     Bundler directory inside `test-projects/`. Default `'vite'`.
  */
-export function assetsDir(projectName: string): string {
-  return path.resolve(import.meta.dirname, '..', '..', '..', 'test-projects', 'vite', projectName, 'dist', 'assets');
+export function assetsDir(projectName: string, bundler = 'vite'): string {
+  return path.resolve(import.meta.dirname, '..', '..', '..', 'test-projects', bundler, projectName, 'dist', 'assets');
 }
 
 // -- Page rendering assertions --

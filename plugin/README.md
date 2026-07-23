@@ -12,7 +12,7 @@
 
 </div>
 
-An [unplugin](https://github.com/unjs/unplugin) for importing SVGs as components. Supports sprite sheets, inline SVGs, and raw file exports across Vite and Rollup.
+An [unplugin](https://github.com/unjs/unplugin) for importing SVGs as components. Supports sprite sheets, inline SVGs, and raw file exports across Vite, Rollup, and Rolldown (including [tsdown](https://tsdown.dev)).
 
 ## Install
 
@@ -43,6 +43,38 @@ export default {
   plugins: [svgJar({ target: 'ember' })],
 };
 ```
+
+### Rolldown
+
+```ts
+// rolldown.config.ts
+import svgJar from '@svg-jar/plugin/rolldown';
+
+export default {
+  plugins: [svgJar({ target: 'ember' })],
+};
+```
+
+### tsdown
+
+[tsdown](https://tsdown.dev) is built on Rolldown, so it uses the Rolldown entry point. Declaration files (`dts: true`) get correctly typed exports for each SVG import.
+
+```ts
+// tsdown.config.ts
+import { defineConfig } from 'tsdown';
+import svgJar from '@svg-jar/plugin/rolldown';
+
+export default defineConfig({
+  entry: ['src/index.ts'],
+  dts: true,
+  plugins: [svgJar({ target: 'dom', base: '/vendor/icons/' })],
+});
+```
+
+> [!IMPORTANT]
+> Sprite sheets are an **application-level** optimization — their benefits (app-wide symbol dedupe, per-symbol tree-shaking, a single sheet on a known origin) only exist when one build owns the whole module graph. A package built with tsdown emits sprite and `?file` assets into its own `dist/assets` with baked URLs that a consuming bundler will not copy or rewrite.
+>
+> Use sprite or `?file` output from tsdown only for **internal packages where the consuming app controls the deploy origin**: set the `base` option to a fixed public path, and have the app copy the package's `dist/assets` there as part of its build (see `test-projects/tsdown/internal-package`). For publicly distributed libraries, ship raw SVG files (and let the consuming app run svg-jar itself) or export inline components (`?unsafe-inline`), which need no asset serving.
 
 ## Usage
 
@@ -112,6 +144,13 @@ svgJar({
   // external files. See "Embedded sprites" below.
   // true: embed all sprites  |  string[]: embed named sprites  |  false (default): external files
   embedded: false,
+
+  // Base public path prepended to emitted asset URLs (sprite sheets and
+  // ?file assets). Defaults to Vite's resolved `base` in Vite, '/' elsewhere.
+  // Set this when the build output is served from a known non-root location,
+  // e.g. an internal package whose dist/assets the consuming app copies to a
+  // fixed public path. A trailing slash is added if missing.
+  base: '/vendor/icons/',
 });
 ```
 
@@ -422,7 +461,7 @@ For a thorough analysis of this problem, see Cynthia Rey's [The state of SVGs on
 ## Requirements
 
 - Node.js >= 20
-- Vite or Rollup
+- Vite, Rollup, or Rolldown (including tsdown)
 
 ## Acknowledgements
 

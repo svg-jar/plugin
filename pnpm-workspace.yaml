@@ -5,6 +5,7 @@ catalog:
   '@types/node': ^24.12.2
   '@vitest/ui': ^4.1.4
   execa: ^9.6.0
+  rolldown: ^1.0.0-rc.15
   rollup: ^4.60.1
   tsdown: ^0.21.8
   typescript: ~6.0.2

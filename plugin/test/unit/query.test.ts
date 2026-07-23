@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { parseSvgId, isSvgId } from '../../src/core/query.ts';
+import { parseSvgId, isSvgId, isDtsImporter, makeSvgDtsId, parseSvgDtsId } from '../../src/core/query.ts';
 
 describe('parseSvgId', () => {
   describe('import mode', () => {
@@ -111,5 +111,46 @@ describe('isSvgId', () => {
 
   it('returns false for files that contain svg but do not end with .svg', () => {
     expect(isSvgId('/project/svg-utils.ts')).toBe(false);
+  });
+});
+
+describe('isDtsImporter', () => {
+  it('returns true for .d.ts, .d.mts, and .d.cts importers', () => {
+    expect(isDtsImporter('/project/src/index.d.ts')).toBe(true);
+    expect(isDtsImporter('/project/src/index.d.mts')).toBe(true);
+    expect(isDtsImporter('/project/src/index.d.cts')).toBe(true);
+  });
+
+  it('returns false for source modules and missing importers', () => {
+    expect(isDtsImporter('/project/src/index.ts')).toBe(false);
+    expect(isDtsImporter('/project/src/index.js')).toBe(false);
+    expect(isDtsImporter(undefined)).toBe(false);
+  });
+});
+
+describe('makeSvgDtsId / parseSvgDtsId', () => {
+  it('round-trips a component declaration module ID', () => {
+    const id = makeSvgDtsId('/project/icon.svg', 'component');
+
+    expect(id).toBe('/project/icon.svg.svg-jar.d.ts');
+    expect(parseSvgDtsId(id)).toBe('component');
+  });
+
+  it('round-trips a file declaration module ID', () => {
+    const id = makeSvgDtsId('/project/icon.svg', 'file');
+
+    expect(id).toBe('/project/icon.svg.svg-jar-file.d.ts');
+    expect(parseSvgDtsId(id)).toBe('file');
+  });
+
+  it('declaration module IDs do not look like SVG imports', () => {
+    expect(isSvgId(makeSvgDtsId('/project/icon.svg', 'component'))).toBe(false);
+    expect(isSvgId(makeSvgDtsId('/project/icon.svg', 'file'))).toBe(false);
+  });
+
+  it('returns null for regular module IDs', () => {
+    expect(parseSvgDtsId('/project/icon.svg')).toBeNull();
+    expect(parseSvgDtsId('/project/icon.svg?file')).toBeNull();
+    expect(parseSvgDtsId('/project/src/index.d.ts')).toBeNull();
   });
 });

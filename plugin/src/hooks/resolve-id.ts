@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import type { UnpluginBuildContext, UnpluginContext } from 'unplugin';
-import { isSvgId } from '../core/query.ts';
+import { isSvgId, isDtsImporter, makeSvgDtsId, parseSvgId } from '../core/query.ts';
 
 /**
  * Creates the `resolveId` hook function.
@@ -28,18 +28,24 @@ export function createResolveIdHook(): (
     const filePath = queryIndex === -1 ? id : id.slice(0, queryIndex);
     const query = queryIndex === -1 ? '' : id.slice(queryIndex);
 
+    // SVG imports from declaration modules (rolldown-plugin-dts / tsdown
+    // resolve imports from virtual `.d.ts` twins) resolve to a virtual
+    // declaration module instead of the component module, so the emitted
+    // `.d.ts` bundle gets type declarations rather than runtime JS.
+    const dtsKind = isDtsImporter(importer) ? (parseSvgId(id).mode === 'file' ? 'file' : 'component') : null;
+
     // Relative or absolute paths - resolve and re-append query.
     if (filePath.startsWith('.') || filePath.startsWith('/')) {
       if (!importer) return null;
       const resolved = path.resolve(path.dirname(importer), filePath);
-      return resolved + query;
+      return dtsKind ? makeSvgDtsId(resolved, dtsKind) : resolved + query;
     }
 
     // Bare specifier - try naive node_modules resolution.
     // This bypasses package.json `exports` which often doesn't include .svg files.
     if (importer) {
       const resolved = resolveFromNodeModules(filePath, path.dirname(importer));
-      if (resolved) return resolved + query;
+      if (resolved) return dtsKind ? makeSvgDtsId(resolved, dtsKind) : resolved + query;
     }
 
     return null;

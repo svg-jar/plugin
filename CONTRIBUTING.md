@@ -63,6 +63,12 @@ test-projects/vite/         One Vite app per supported framework target
 ├── vanilla/
 ├── vue/
 └── web-component/
+
+test-projects/rolldown/     Rolldown-as-app-bundler projects
+└── vanilla/                DOM app, e2e tested like the Vite apps
+
+test-projects/tsdown/       tsdown (Rolldown) projects
+└── internal-package/       Internal monorepo package with `base` + declaration output
 ```
 
 ## Tests
@@ -77,7 +83,7 @@ pnpm --filter @svg-jar/plugin test:unit
 
 ### Integration tests
 
-A Rollup integration test builds a minimal bundle and asserts the output.
+Rollup and Rolldown integration tests build a minimal bundle and assert the output. A tsdown integration test builds `test-projects/tsdown/internal-package` and asserts on its dist output, including the bundled declaration file.
 
 ```sh
 pnpm --filter @svg-jar/plugin test:unit   # includes integration/
