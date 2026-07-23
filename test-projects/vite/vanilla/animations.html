@@ -4,15 +4,34 @@
     <meta charset="utf-8" />
     <title>SVG Jar – Animated SVGs</title>
     <style>
-      body { margin: 40px; font-family: sans-serif; background: #fafafa; }
-      h1 { font-size: 20px; color: #333; margin-bottom: 8px; }
-      p { font-size: 13px; color: #888; margin-bottom: 32px; }
-      #app { display: flex; flex-wrap: wrap; align-items: flex-start; }
+      body {
+        margin: 40px;
+        font-family: sans-serif;
+        background: #fafafa;
+      }
+      h1 {
+        font-size: 20px;
+        color: #333;
+        margin-bottom: 8px;
+      }
+      p {
+        font-size: 13px;
+        color: #888;
+        margin-bottom: 32px;
+      }
+      #app {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+      }
     </style>
   </head>
   <body>
     <h1>Animated SVG manual test</h1>
-    <p>All five animations should be playing. Each is imported in sprite mode and rendered via <code>&lt;use href&gt;</code> from a shared sprite sheet.</p>
+    <p>
+      All five animations should be playing. Each is imported in sprite mode and rendered via
+      <code>&lt;use href&gt;</code> from a shared sprite sheet.
+    </p>
     <div id="app"></div>
     <script type="module" src="/src/animations.ts"></script>
   </body>

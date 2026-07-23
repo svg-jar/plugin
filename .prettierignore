@@ -3,5 +3,8 @@
 **/test/_scenarios/
 **/test/_snapshots/
 **/lib/banners.ts
+**/test-results/
+**/playwright-report/
 pnpm-lock.yaml
 AGENTS.md
+CHANGELOG.md
