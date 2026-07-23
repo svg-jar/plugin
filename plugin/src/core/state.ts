@@ -23,14 +23,19 @@ export class PluginState {
   /** Whether the current build is a dev server (serve) vs production build. */
   isDev = false;
 
-  /** Vite base path (e.g. `"/"`). Used to construct final asset URLs. */
-  base = '/';
+  /**
+   * Base public path (e.g. `"/"`). Used to construct final asset URLs.
+   * Seeded from the `base` plugin option; in Vite the resolved config
+   * `base` is used when the option is not set.
+   */
+  base: string;
 
   /** Project root directory. Used to compute relative paths. Defaults to cwd. */
   root: string = process.cwd();
 
   constructor(options: ResolvedOptions) {
     this.options = options;
+    this.base = options.base ?? '/';
   }
 
   /**

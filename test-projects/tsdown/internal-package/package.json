@@ -1,5 +1,5 @@
 {
-  "name": "@svg-jar/test-tsdown-library",
+  "name": "@svg-jar/test-tsdown-internal-package",
   "private": true,
   "type": "module",
   "version": "0.0.0",

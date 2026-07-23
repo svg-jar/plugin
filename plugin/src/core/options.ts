@@ -46,6 +46,24 @@ export interface SvgJarOptions {
    * svgJar({ embedded: true })
    */
   embedded?: boolean | string[];
+
+  /**
+   * Base public path prepended to emitted asset URLs (sprite sheets and
+   * `?file` assets), e.g. `'/vendor/icons/'`.
+   *
+   * Defaults to the bundler's base path in Vite (`base` from the resolved
+   * config), and `'/'` in other bundlers. Set this when the build output
+   * is served from a known non-root location - for example an internal
+   * package built with Rolldown/tsdown whose `dist/assets` the consuming
+   * app copies to a fixed public path.
+   *
+   * A trailing slash is added if missing.
+   *
+   * @example
+   * // Emitted URLs become /vendor/icons/assets/sprite-<hash>.svg#<id>
+   * svgJar({ base: '/vendor/icons/' })
+   */
+  base?: string;
 }
 
 /**
@@ -57,6 +75,8 @@ export interface ResolvedOptions {
   defaultSprite: string;
   currentColor: boolean;
   embedded: boolean | string[];
+  /** Normalized base path (trailing slash ensured), or undefined to use the bundler default. */
+  base: string | undefined;
 }
 
 /**
@@ -72,5 +92,6 @@ export function resolveOptions(options: SvgJarOptions = {}): ResolvedOptions {
     defaultSprite: options.defaultSprite ?? 'sprite',
     currentColor: options.currentColor ?? false,
     embedded: options.embedded ?? false,
+    base: options.base == null ? undefined : options.base.endsWith('/') ? options.base : `${options.base}/`,
   };
 }

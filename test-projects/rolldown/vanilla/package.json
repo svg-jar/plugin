@@ -1,0 +1,16 @@
+{
+  "name": "@svg-jar/test-rolldown-vanilla",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "scripts": {
+    "build": "rolldown -c && cp index.html dist/",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@svg-jar/plugin": "workspace:*",
+    "rolldown": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  }
+}

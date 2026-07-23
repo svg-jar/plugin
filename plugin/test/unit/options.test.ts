@@ -31,4 +31,18 @@ describe('resolveOptions', () => {
 
     expect(resolved.svgo).toBe(svgoConfig);
   });
+
+  describe('base', () => {
+    it('defaults to undefined (bundler decides)', () => {
+      expect(resolveOptions({}).base).toBeUndefined();
+    });
+
+    it('preserves a base with a trailing slash', () => {
+      expect(resolveOptions({ base: '/vendor/icons/' }).base).toBe('/vendor/icons/');
+    });
+
+    it('adds a missing trailing slash', () => {
+      expect(resolveOptions({ base: '/vendor/icons' }).base).toBe('/vendor/icons/');
+    });
+  });
 });

@@ -32,7 +32,7 @@ export const SvgJarPlugin: UnpluginInstance<SvgJarOptions | undefined, false> = 
     vite: {
       configResolved(config) {
         state.isDev = config.command === 'serve';
-        state.base = config.base ?? '/';
+        state.base = state.options.base ?? config.base ?? '/';
         state.root = config.root ?? '';
       },
       renderChunk: createRenderChunkHook(state) as never,

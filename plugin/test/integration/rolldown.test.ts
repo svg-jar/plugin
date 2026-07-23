@@ -90,4 +90,17 @@ describe('Rolldown integration', () => {
       expect(findAsset(fileOutput, (f) => /^assets\/simple-[a-f0-9]+\.svg$/.test(f))).toBeDefined();
     });
   });
+
+  describe('base option', () => {
+    it('prefixes sprite and file asset URLs with the configured base', async () => {
+      const [spriteOutput, fileOutput] = await Promise.all([
+        build({ target: 'dom', base: '/vendor/icons/' }),
+        build({ target: 'dom', base: '/vendor/icons' }, ENTRY_FILE_MODE),
+      ]);
+
+      expect(findChunk(spriteOutput).code).toMatch(/\/vendor\/icons\/assets\/sprite-[a-f0-9]+\.svg#[a-f0-9]+/);
+      // Trailing slash is added when missing
+      expect(findChunk(fileOutput).code).toMatch(/\/vendor\/icons\/assets\/simple-[a-f0-9]+\.svg/);
+    });
+  });
 });
