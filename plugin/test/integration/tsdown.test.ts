@@ -21,13 +21,23 @@ function readDist(fileName: string): string {
  * declaration file full of runtime JS).
  */
 describe('tsdown integration (internal-package example)', () => {
+  let buildOutput: string;
+
   beforeAll(async () => {
     // Build the plugin first: the example resolves @svg-jar/plugin via the
     // workspace, whose exports point at dist/. Skipping this would silently
     // test a stale build.
     await execa('pnpm', ['build'], { cwd: PLUGIN_DIR });
-    await execa('pnpm', ['build'], { cwd: PROJECT_DIR });
+    const result = await execa('pnpm', ['build'], { cwd: PROJECT_DIR, all: true });
+    buildOutput = result.all ?? '';
   }, 120_000);
+
+  it('emits no sourcemap warnings', () => {
+    // The example builds with `sourcemap: true`; a transform hook that
+    // returns a string without a map makes rolldown warn SOURCEMAP_BROKEN
+    // once per imported SVG.
+    expect(buildOutput).not.toContain('SOURCEMAP_BROKEN');
+  });
 
   describe('JS output', () => {
     it('replaces sprite placeholders with base-prefixed URLs', () => {
