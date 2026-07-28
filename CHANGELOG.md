@@ -1,5 +1,19 @@
 # Changelog
 
+## Release (2026-07-28)
+
+* @svg-jar/plugin 0.2.1 (patch)
+
+#### :bug: Bug Fix
+* `@svg-jar/plugin`
+  * [#12](https://github.com/svg-jar/plugin/pull/12) Fix SOURCEMAP_BROKEN warnings: return an empty sourcemap from the transform hook ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### :house: Internal
+* [#13](https://github.com/svg-jar/plugin/pull/13) Update Node.js version matrix in CI workflow ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2026-07-23)
 
 * @svg-jar/plugin 0.2.0 (minor)
