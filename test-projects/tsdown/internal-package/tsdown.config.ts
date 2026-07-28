@@ -6,6 +6,7 @@ export default defineConfig({
   format: 'esm',
   platform: 'browser',
   dts: true,
+  sourcemap: true,
   plugins: [
     svgJar({
       target: 'dom',

@@ -1,10 +1,20 @@
 import path from 'node:path';
-import type { UnpluginBuildContext, UnpluginContext } from 'unplugin';
+import type { TransformResult, UnpluginBuildContext, UnpluginContext } from 'unplugin';
 import type { PluginState } from '../core/state.ts';
 import { isSvgId } from '../core/query.ts';
 import { generateCode } from '../codegen/index.ts';
 import { hashSvg } from '../svg/parse.ts';
 import { createSymbol, serializeSvg } from '../svg/serialize.ts';
+
+/**
+ * The transform replaces each SVG module's code wholesale, so there is no
+ * meaningful mapping back to the source. Return an explicitly empty sourcemap
+ * (`{ mappings: '' }`) per the Rollup convention so bundlers building with
+ * sourcemaps enabled don't warn SOURCEMAP_BROKEN for every imported SVG.
+ */
+function withEmptyMap(code: string): TransformResult {
+  return { code, map: { mappings: '' } };
+}
 
 /**
  * Creates the `transform` hook function.
@@ -19,7 +29,7 @@ import { createSymbol, serializeSvg } from '../svg/serialize.ts';
  */
 export function createTransformHook(
   state: PluginState,
-): (this: UnpluginBuildContext & UnpluginContext, code: string, id: string) => string | null {
+): (this: UnpluginBuildContext & UnpluginContext, code: string, id: string) => TransformResult {
   return function transform(code, id) {
     if (!isSvgId(id)) return null;
 
@@ -40,7 +50,7 @@ export function createTransformHook(
         // Dev mode: export the file path relative to root.
         // Vite's dev server serves files directly from the filesystem.
         const relativePath = state.root ? path.relative(state.root, filePath) : filePath;
-        return `${preamble}export default ${JSON.stringify(`${state.base}${relativePath}`)};`;
+        return withEmptyMap(`${preamble}export default ${JSON.stringify(`${state.base}${relativePath}`)};`);
       }
 
       // Build mode: generate a hashed filename and store for generateBundle to emit.
@@ -50,7 +60,7 @@ export function createTransformHook(
 
       state.fileAssets.set(id, { fileName, source: svgModule.svgSource });
 
-      return `${preamble}export default ${JSON.stringify(`${state.base}${fileName}`)};`;
+      return withEmptyMap(`${preamble}export default ${JSON.stringify(`${state.base}${fileName}`)};`);
     }
 
     // Build symbol markup for dev sprite mode.
@@ -95,6 +105,6 @@ export function createTransformHook(
       refSymbols,
     });
 
-    return `${preamble}${generated}`;
+    return withEmptyMap(`${preamble}${generated}`);
   };
 }
