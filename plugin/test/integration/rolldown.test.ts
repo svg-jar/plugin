@@ -11,7 +11,7 @@ const ENTRY_FILE_MODE = path.join(FIXTURES_DIR, 'entry-file-mode.js');
 /**
  * Builds the test fixture with Rolldown + svg-jar plugin and returns the output.
  */
-async function build(options = {}, entry = ENTRY): Promise<RolldownOutput> {
+async function build(options = {}, entry = ENTRY, entryFileNames = '[name].js'): Promise<RolldownOutput> {
   const bundle = await rolldown({
     input: entry,
     plugins: [SvgJarPlugin.rolldown(options)],
@@ -19,7 +19,7 @@ async function build(options = {}, entry = ENTRY): Promise<RolldownOutput> {
     // package name, which is not resolvable from inside the package itself.
     external: [/^@svg-jar\/plugin\/runtime\//],
   });
-  return bundle.generate({ format: 'esm' });
+  return bundle.generate({ format: 'esm', entryFileNames });
 }
 
 function findChunk(output: RolldownOutput) {
@@ -101,6 +101,29 @@ describe('Rolldown integration', () => {
       expect(findChunk(spriteOutput).code).toMatch(/\/vendor\/icons\/assets\/sprite-[a-f0-9]+\.svg#[a-f0-9]+/);
       // Trailing slash is added when missing
       expect(findChunk(fileOutput).code).toMatch(/\/vendor\/icons\/assets\/simple-[a-f0-9]+\.svg/);
+    });
+  });
+
+  describe('relativeUrls option', () => {
+    it('points sprite URLs at the sprite file relative to the chunk', async () => {
+      const code = findChunk(await build({ target: 'dom', relativeUrls: true, base: '/ignored/' })).code;
+
+      PLACEHOLDER_RE.lastIndex = 0;
+      expect(code).not.toMatch(PLACEHOLDER_RE);
+      expect(code).not.toContain('/ignored/');
+      expect(code).toMatch(/new URL\("\.\/assets\/sprite-[a-f0-9]+\.svg", import\.meta\.url\)\.href \+ "#[a-f0-9]+"/);
+    });
+
+    it('walks up from a chunk in a subdirectory', async () => {
+      const code = findChunk(await build({ target: 'dom', relativeUrls: true }, ENTRY, 'nested/[name].js')).code;
+
+      expect(code).toMatch(/new URL\("\.\.\/assets\/sprite-[a-f0-9]+\.svg", import\.meta\.url\)/);
+    });
+
+    it('still emits the sprite into assets/', async () => {
+      const output = await build({ target: 'dom', relativeUrls: true });
+
+      expect(findAsset(output, (f) => /^assets\/sprite-[a-f0-9]+\.svg$/.test(f))).toBeDefined();
     });
   });
 });

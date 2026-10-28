@@ -77,4 +77,14 @@ describe('resolveOptions', () => {
       expect(resolveOptions({ base: '/vendor/icons' }).base).toBe('/vendor/icons/');
     });
   });
+
+  describe('relativeUrls', () => {
+    it('defaults to false', () => {
+      expect(resolveOptions({}).relativeUrls).toBe(false);
+    });
+
+    it('preserves true', () => {
+      expect(resolveOptions({ relativeUrls: true }).relativeUrls).toBe(true);
+    });
+  });
 });

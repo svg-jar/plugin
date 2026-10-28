@@ -74,7 +74,7 @@ export default defineConfig({
 > [!IMPORTANT]
 > Sprite sheets are an **application-level** optimization — their benefits (app-wide symbol dedupe, per-symbol tree-shaking, a single sheet on a known origin) only exist when one build owns the whole module graph. A package built with tsdown emits sprite and `?file` assets into its own `dist/assets` with baked URLs that a consuming bundler will not copy or rewrite.
 >
-> Use sprite or `?file` output from tsdown only for **internal packages where the consuming app controls the deploy origin**: set the `base` option to a fixed public path, and have the app copy the package's `dist/assets` there as part of its build (see `test-projects/tsdown/internal-package`). For publicly distributed libraries, ship raw SVG files (and let the consuming app run svg-jar itself) or export inline components (`?unsafe-inline`), which need no asset serving.
+> Use sprite or `?file` output from tsdown only for **internal packages where the consuming app controls the deploy origin**: set the `base` option to a fixed public path, and have the app copy the package's `dist/assets` there as part of its build (see `test-projects/tsdown/internal-package`). If the consuming app's bundler handles `new URL(..., import.meta.url)` (Vite does), set `relativeUrls: true` instead, so sprite URLs do not depend on where the app is served. For publicly distributed libraries, ship raw SVG files (and let the consuming app run svg-jar itself) or export inline components (`?unsafe-inline`), which need no asset serving.
 
 ## Usage
 
@@ -171,6 +171,12 @@ svgJar({
   // e.g. an internal package whose dist/assets the consuming app copies to a
   // fixed public path. A trailing slash is added if missing.
   base: '/vendor/icons/',
+
+  // Emit sprite URLs as `new URL('./assets/sprite-<hash>.svg', import.meta.url)`,
+  // relative to the chunk, instead of prefixing them with `base`. The
+  // consuming app's bundler then resolves the sprite and serves it under the
+  // app's own base. Applies to sprite references in JS only. Default: false.
+  relativeUrls: false,
 });
 ```
 
