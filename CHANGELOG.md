@@ -1,5 +1,16 @@
 # Changelog
 
+## Release (2026-11-11)
+
+* @svg-jar/plugin 1.2.0 (minor)
+
+#### :rocket: Enhancement
+* `@svg-jar/plugin`
+  * [#25](https://github.com/svg-jar/plugin/pull/25) Add relativeUrls option for sprite URLs in library builds ([@NullVoxPopuli](https://github.com/NullVoxPopuli))
+
+#### Committers: 1
+- [@NullVoxPopuli](https://github.com/NullVoxPopuli)
+
 ## Release (2026-10-27)
 
 * @svg-jar/plugin 1.1.0 (minor)
