@@ -81,6 +81,23 @@ export interface SvgJarOptions {
    * svgJar({ base: '/vendor/icons/' })
    */
   base?: string;
+
+  /**
+   * Emit sprite URLs relative to the chunk that uses them, as
+   * `new URL('./assets/sprite-<hash>.svg', import.meta.url).href + '#<id>'`,
+   * instead of prefixing them with `base`.
+   *
+   * Use this when building a library. The app that consumes it does not
+   * need to serve the sprite at a fixed path: its own bundler resolves the
+   * `new URL(..., import.meta.url)` reference, and serves and emits the
+   * sprite under the app's base.
+   *
+   * Applies to sprite references in JS only. `?file` imports and refs
+   * inside sprite sheets still use `base`.
+   *
+   * Default: `false`.
+   */
+  relativeUrls?: boolean;
 }
 
 /**
@@ -95,6 +112,7 @@ export interface ResolvedOptions {
   embedded: boolean | string[];
   /** Normalized base path (trailing slash ensured), or undefined to use the bundler default. */
   base: string | undefined;
+  relativeUrls: boolean;
 }
 
 /**
@@ -112,5 +130,6 @@ export function resolveOptions(options: SvgJarOptions = {}): ResolvedOptions {
     rootAttributes: options.rootAttributes ?? [...DEFAULT_ROOT_ATTRIBUTES],
     embedded: options.embedded ?? false,
     base: options.base == null ? undefined : options.base.endsWith('/') ? options.base : `${options.base}/`,
+    relativeUrls: options.relativeUrls ?? false,
   };
 }
